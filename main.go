@@ -1,8 +1,9 @@
 package main
+
 import (
-    "fmt"
+	"fmt"
 )
 
-func main(){
-    fmt.Println("go-utils")
+func main() {
+	fmt.Println("go-utils")
 }
