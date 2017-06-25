@@ -1,0 +1,4 @@
+package: github.com/ehlxr/go-utils
+import:
+- package: github.com/sirupsen/logrus
+- package: github.com/x-cray/logrus-prefixed-formatter
