@@ -1,4 +1,4 @@
-package main
+package log
 
 import (
 	"github.com/ehlxr/go-utils/log"
@@ -11,7 +11,7 @@ func init() {
 	// log.SetFn(false)
 }
 
-func main() {
+func TestLog() {
 
 	log.Debug("debug text...")
 	log.Info("info text...")
