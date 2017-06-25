@@ -74,6 +74,14 @@ func Debug(args ...interface{}) {
 	}
 }
 
+func Debugf(format string, args ...interface{}) {
+	if fn {
+		mylog.WithField("prefix", fileInfo(2)).Debugf(format, args...)
+	} else {
+		mylog.Debugf(format, args...)
+	}
+}
+
 func DebugWithFields(fields Fields, args ...interface{}) {
 	entry := mylog.WithFields(logrus.Fields(fields))
 
@@ -81,7 +89,15 @@ func DebugWithFields(fields Fields, args ...interface{}) {
 		entry.Data["prefix"] = fileInfo(2)
 	}
 	entry.Debug(args...)
+}
 
+func DebugfWithFields(fields Fields, format string, args ...interface{}) {
+	entry := mylog.WithFields(logrus.Fields(fields))
+
+	if fn {
+		entry.Data["prefix"] = fileInfo(2)
+	}
+	entry.Debugf(format, args...)
 }
 
 func Info(args ...interface{}) {
@@ -94,9 +110,9 @@ func Info(args ...interface{}) {
 
 func Infof(format string, args ...interface{}) {
 	if fn {
-		mylog.WithField("prefix", fileInfo(2)).Infof(format, args)
+		mylog.WithField("prefix", fileInfo(2)).Infof(format, args...)
 	} else {
-		mylog.Infof(format, args)
+		mylog.Infof(format, args...)
 	}
 }
 
@@ -110,11 +126,28 @@ func InfoWithFields(fields Fields, args ...interface{}) {
 
 }
 
+func InfofWithFields(fields Fields, format string, args ...interface{}) {
+	entry := mylog.WithFields(logrus.Fields(fields))
+
+	if fn {
+		entry.Data["prefix"] = fileInfo(2)
+	}
+	entry.Infof(format, args...)
+}
+
 func Error(args ...interface{}) {
 	if fn {
 		mylog.WithField("prefix", fileInfo(2)).Error(args...)
 	} else {
 		mylog.Error(args...)
+	}
+}
+
+func Errorf(format string, args ...interface{}) {
+	if fn {
+		mylog.WithField("prefix", fileInfo(2)).Errorf(format, args...)
+	} else {
+		mylog.Errorf(format, args...)
 	}
 }
 
@@ -128,11 +161,28 @@ func ErrorWithFields(fields Fields, args ...interface{}) {
 
 }
 
+func ErrorfWithFields(fields Fields, format string, args ...interface{}) {
+	entry := mylog.WithFields(logrus.Fields(fields))
+
+	if fn {
+		entry.Data["prefix"] = fileInfo(2)
+	}
+	entry.Errorf(format, args...)
+}
+
 func Fatal(args ...interface{}) {
 	if fn {
 		mylog.WithField("prefix", fileInfo(2)).Fatal(args...)
 	} else {
 		mylog.Fatal(args...)
+	}
+}
+
+func Fatalf(format string, args ...interface{}) {
+	if fn {
+		mylog.WithField("prefix", fileInfo(2)).Fatalf(format, args...)
+	} else {
+		mylog.Fatalf(format, args...)
 	}
 }
 
@@ -143,7 +193,15 @@ func FatalWithFields(fields Fields, args ...interface{}) {
 		entry.Data["prefix"] = fileInfo(2)
 	}
 	entry.Fatal(args...)
+}
 
+func FatalfWithFields(fields Fields, format string, args ...interface{}) {
+	entry := mylog.WithFields(logrus.Fields(fields))
+
+	if fn {
+		entry.Data["prefix"] = fileInfo(2)
+	}
+	entry.Fatalf(format, args...)
 }
 
 func Panic(args ...interface{}) {
@@ -154,12 +212,28 @@ func Panic(args ...interface{}) {
 	}
 }
 
+func Panicf(format string, args ...interface{}) {
+	if fn {
+		mylog.WithField("prefix", fileInfo(2)).Panicf(format, args...)
+	} else {
+		mylog.Panicf(format, args...)
+	}
+}
+
 func PanicWithFields(fields Fields, args ...interface{}) {
 	entry := mylog.WithFields(logrus.Fields(fields))
 
 	if fn {
 		entry.Data["prefix"] = fileInfo(2)
 	}
-	entry.Info(args...)
+	entry.Panic(args...)
+}
 
+func PanicfWithFields(fields Fields, format string, args ...interface{}) {
+	entry := mylog.WithFields(logrus.Fields(fields))
+
+	if fn {
+		entry.Data["prefix"] = fileInfo(2)
+	}
+	entry.Panicf(format, args...)
 }
