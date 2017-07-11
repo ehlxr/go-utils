@@ -16,7 +16,7 @@ type (
 
 var (
 	mylog *logrus.Logger
-	fn    bool
+	fn    bool //whether show file line
 )
 
 func init() {
@@ -36,6 +36,7 @@ func init() {
 	fn = true
 }
 
+// whether show file line
 func SetFn(val bool) {
 	fn = val
 }
