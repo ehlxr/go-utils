@@ -11,7 +11,7 @@ func TestRunner(t *testing.T) {
 
 	log.Println("...开始执行任务...")
 	timeout := 3 * time.Second
-	r := New(timeout)
+	r := NewRunner(timeout)
 	r.Add(createTask(), createTask(), createTask())
 	if err := r.Start(); err != nil {
 		switch err {

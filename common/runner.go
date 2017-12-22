@@ -19,7 +19,7 @@ type Runner struct {
 	interrupt chan os.Signal   //可以控制强制终止的信号
 }
 
-func New(tm time.Duration) *Runner {
+func NewRunner(tm time.Duration) *Runner {
 	return &Runner{
 		complete:  make(chan error),
 		timeout:   time.After(tm),
