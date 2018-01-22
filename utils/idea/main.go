@@ -9,6 +9,7 @@ import (
 	"encoding/hex"
 	"encoding/pem"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -19,18 +20,19 @@ import (
 func main() {
 	log.SetOutput(os.Stdout)
 
-	address := flag.String("addr", "127.0.0.1:9418", "Bind TCP Address")
+	port := flag.Int("p", 1017, "port")
+	host := flag.String("host", "0.0.0.0", "Bind TCP Address")
 	flag.Parse()
 
-	log.Println("Starting server at http://" + *address)
-	log.Println("Quit the server with CTRL-C.")
-
-	if strings.Contains(*address, "0.0.0.0") {
-		*address = strings.Replace(*address, "0.0.0.0", "", 1)
+	addr := fmt.Sprintf("%s:%d", *host, *port)
+	if strings.Contains(addr, "0.0.0.0") {
+		addr = strings.Replace(addr, "0.0.0.0", "127.0.0.1", 1)
 	}
 
+	log.Println("Starting server at http://" + addr)
+
 	routerBinding()
-	err := http.ListenAndServe(*address, http.DefaultServeMux)
+	err := http.ListenAndServe(addr, http.DefaultServeMux)
 	if err != nil {
 		log.Fatalln(err)
 	}
