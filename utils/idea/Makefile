@@ -3,9 +3,7 @@ GOARCH := $(shell go env | awk -F= '$$1=="GOARCH" {print $$2}' | awk -F '"' '{pr
 
 .PHONY: build
 build:
-	echo $(strip $(GOOS))-2
-	go build -ldflags "-s -w" -o JetBrainsLicenseServer_$(strip $(GOOS))_$(strip $(GOARCH))
-	@upx JetBrainsLicenseServer_$(strip $(GOOS))_$(strip $(GOARCH))
+	@go build -ldflags "-s -w" -o JetBrainsLicenseServer_$(strip $(GOOS))_$(strip $(GOARCH))
 
 .PHONY: amd64
 amd64:

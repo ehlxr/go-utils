@@ -10,7 +10,6 @@ import (
 	"encoding/pem"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -96,24 +95,25 @@ func obtainTicket(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("<!-- " + xmlSignature + " -->\n" + xmlResponse))
 }
 
-// var privateKey = []byte(`
-// -----BEGIN RSA PRIVATE KEY-----
-// MIIBOgIBAAJBALecq3BwAI4YJZwhJ+snnDFj3lF3DMqNPorV6y5ZKXCiCMqj8OeOmxk4YZW9aaV9
-// ckl/zlAOI0mpB3pDT+Xlj2sCAwEAAQJAW6/aVD05qbsZHMvZuS2Aa5FpNNj0BDlf38hOtkhDzz/h
-// kYb+EBYLLvldhgsD0OvRNy8yhz7EjaUqLCB0juIN4QIhAOeCQp+NXxfBmfdG/S+XbRUAdv8iHBl+
-// F6O2wr5fA2jzAiEAywlDfGIl6acnakPrmJE0IL8qvuO3FtsHBrpkUuOnXakCIQCqdr+XvADI/UTh
-// TuQepuErFayJMBSAsNe3NFsw0cUxAQIgGA5n7ZPfdBi3BdM4VeJWb87WrLlkVxPqeDSbcGrCyMkC
-// IFSs5JyXvFTreWt7IQjDssrKDRIPmALdNjvfETwlNJyY
-// -----END RSA PRIVATE KEY-----
-// `)
+var privateKey = []byte(`
+-----BEGIN RSA PRIVATE KEY-----
+MIIBOgIBAAJBALecq3BwAI4YJZwhJ+snnDFj3lF3DMqNPorV6y5ZKXCiCMqj8OeOmxk4YZW9aaV9
+ckl/zlAOI0mpB3pDT+Xlj2sCAwEAAQJAW6/aVD05qbsZHMvZuS2Aa5FpNNj0BDlf38hOtkhDzz/h
+kYb+EBYLLvldhgsD0OvRNy8yhz7EjaUqLCB0juIN4QIhAOeCQp+NXxfBmfdG/S+XbRUAdv8iHBl+
+F6O2wr5fA2jzAiEAywlDfGIl6acnakPrmJE0IL8qvuO3FtsHBrpkUuOnXakCIQCqdr+XvADI/UTh
+TuQepuErFayJMBSAsNe3NFsw0cUxAQIgGA5n7ZPfdBi3BdM4VeJWb87WrLlkVxPqeDSbcGrCyMkC
+IFSs5JyXvFTreWt7IQjDssrKDRIPmALdNjvfETwlNJyY
+-----END RSA PRIVATE KEY-----
+`)
 
 func signature(message string) (string, error) {
-	key, err := ioutil.ReadFile("rsa.key")
-	if err != nil {
-		return "", err
-	}
+	// key, err := ioutil.ReadFile("rsa.key")
+	// if err != nil {
+	// 	return "", err
+	// }
+	// pem, _ := pem.Decode(key)
 
-	pem, _ := pem.Decode(key)
+	pem, _ := pem.Decode([]byte(privateKey))
 	rsaPrivateKey, err := x509.ParsePKCS1PrivateKey(pem.Bytes)
 
 	hashedMessage := md5.Sum([]byte(message))
