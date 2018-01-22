@@ -20,8 +20,8 @@ import (
 func main() {
 	log.SetOutput(os.Stdout)
 
-	port := flag.Int("p", 1017, "port")
-	host := flag.String("host", "0.0.0.0", "Bind TCP Address")
+	port := flag.Int("p", 21017, "port")
+	host := flag.String("h", "0.0.0.0", "Bind TCP Address")
 	flag.Parse()
 
 	addr := fmt.Sprintf("%s:%d", *host, *port)
@@ -29,7 +29,12 @@ func main() {
 		addr = strings.Replace(addr, "0.0.0.0", "127.0.0.1", 1)
 	}
 
-	log.Println("Starting server at http://" + addr)
+	log.Println("************************************************************")
+	log.Printf("** %-55s**", "JetBrains License Server")
+	log.Printf("** %-55s**", "Please support genuine!!!")
+	log.Printf("** listen on %-45s**", fmt.Sprintf("%s:%d...", *host, *port))
+	log.Printf("** You can use %-43s**", fmt.Sprintf("http://%s as license server", addr))
+	log.Println("************************************************************")
 
 	routerBinding()
 	err := http.ListenAndServe(addr, http.DefaultServeMux)
