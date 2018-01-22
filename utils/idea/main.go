@@ -10,6 +10,7 @@ import (
 	"encoding/pem"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -20,14 +21,13 @@ import (
 func main() {
 	log.SetOutput(os.Stdout)
 
+	port := flag.Int("p", 21017, "port")
+	host := flag.String("host", "0.0.0.0", "Bind TCP Address")
+	flag.Parse()
+
 	log.Println("************************************************************")
 	log.Printf("** %-55s**", "JetBrains License Server")
 	log.Printf("** %-55s**", "Please support genuine!!!")
-
-	port := flag.Int("p", 21017, "port")
-	host := flag.String("h", "0.0.0.0", "Bind TCP Address")
-	flag.Parse()
-
 	log.Printf("** listen on %-45s**", fmt.Sprintf("%s:%d...", *host, *port))
 
 	addr := fmt.Sprintf("%s:%d", *host, *port)
@@ -79,17 +79,9 @@ func ping(w http.ResponseWriter, r *http.Request) {
 
 func obtainTicket(w http.ResponseWriter, r *http.Request) {
 	// log.Println(r.URL)
-	//buildDate := r.URL.Query().Get("buildDate")
-	//clientVersion := r.URL.Query().Get("clientVersion")
-	//hostName := r.URL.Query().Get("hostName")
-	//machineId := r.URL.Query().Get("machineId")
-	//productCode := r.URL.Query().Get("productCode")
-	//productFamilyId := r.URL.Query().Get("productFamilyId")
+
 	salt := r.URL.Query().Get("salt")
-	//secure := r.URL.Query().Get("secure")
 	username := r.URL.Query().Get("userName")
-	//version := r.URL.Query().Get("version")
-	//versionNumber := r.URL.Query().Get("versionNumber")
 
 	if salt == "" || username == "" {
 		w.WriteHeader(http.StatusForbidden)
@@ -104,19 +96,24 @@ func obtainTicket(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("<!-- " + xmlSignature + " -->\n" + xmlResponse))
 }
 
-var privateKey = []byte(`
------BEGIN RSA PRIVATE KEY-----
-MIIBOgIBAAJBALecq3BwAI4YJZwhJ+snnDFj3lF3DMqNPorV6y5ZKXCiCMqj8OeOmxk4YZW9aaV9
-ckl/zlAOI0mpB3pDT+Xlj2sCAwEAAQJAW6/aVD05qbsZHMvZuS2Aa5FpNNj0BDlf38hOtkhDzz/h
-kYb+EBYLLvldhgsD0OvRNy8yhz7EjaUqLCB0juIN4QIhAOeCQp+NXxfBmfdG/S+XbRUAdv8iHBl+
-F6O2wr5fA2jzAiEAywlDfGIl6acnakPrmJE0IL8qvuO3FtsHBrpkUuOnXakCIQCqdr+XvADI/UTh
-TuQepuErFayJMBSAsNe3NFsw0cUxAQIgGA5n7ZPfdBi3BdM4VeJWb87WrLlkVxPqeDSbcGrCyMkC
-IFSs5JyXvFTreWt7IQjDssrKDRIPmALdNjvfETwlNJyY
------END RSA PRIVATE KEY-----
-`)
+// var privateKey = []byte(`
+// -----BEGIN RSA PRIVATE KEY-----
+// MIIBOgIBAAJBALecq3BwAI4YJZwhJ+snnDFj3lF3DMqNPorV6y5ZKXCiCMqj8OeOmxk4YZW9aaV9
+// ckl/zlAOI0mpB3pDT+Xlj2sCAwEAAQJAW6/aVD05qbsZHMvZuS2Aa5FpNNj0BDlf38hOtkhDzz/h
+// kYb+EBYLLvldhgsD0OvRNy8yhz7EjaUqLCB0juIN4QIhAOeCQp+NXxfBmfdG/S+XbRUAdv8iHBl+
+// F6O2wr5fA2jzAiEAywlDfGIl6acnakPrmJE0IL8qvuO3FtsHBrpkUuOnXakCIQCqdr+XvADI/UTh
+// TuQepuErFayJMBSAsNe3NFsw0cUxAQIgGA5n7ZPfdBi3BdM4VeJWb87WrLlkVxPqeDSbcGrCyMkC
+// IFSs5JyXvFTreWt7IQjDssrKDRIPmALdNjvfETwlNJyY
+// -----END RSA PRIVATE KEY-----
+// `)
 
 func signature(message string) (string, error) {
-	pem, _ := pem.Decode(privateKey)
+	key, err := ioutil.ReadFile("rsa.key")
+	if err != nil {
+		return "", err
+	}
+
+	pem, _ := pem.Decode(key)
 	rsaPrivateKey, err := x509.ParsePKCS1PrivateKey(pem.Bytes)
 
 	hashedMessage := md5.Sum([]byte(message))
