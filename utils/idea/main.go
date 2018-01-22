@@ -20,20 +20,23 @@ import (
 func main() {
 	log.SetOutput(os.Stdout)
 
+	log.Println("************************************************************")
+	log.Printf("** %-55s**", "JetBrains License Server")
+	log.Printf("** %-55s**", "Please support genuine!!!")
+
 	port := flag.Int("p", 21017, "port")
 	host := flag.String("h", "0.0.0.0", "Bind TCP Address")
 	flag.Parse()
 
+	log.Printf("** listen on %-45s**", fmt.Sprintf("%s:%d...", *host, *port))
+
 	addr := fmt.Sprintf("%s:%d", *host, *port)
 	if strings.Contains(addr, "0.0.0.0") {
-		addr = strings.Replace(addr, "0.0.0.0", "127.0.0.1", 1)
+		addr = strings.Replace(addr, "0.0.0.0", "", 1)
+		*host = strings.Replace(*host, "0.0.0.0", "127.0.0.1", 1)
 	}
 
-	log.Println("************************************************************")
-	log.Printf("** %-55s**", "JetBrains License Server")
-	log.Printf("** %-55s**", "Please support genuine!!!")
-	log.Printf("** listen on %-45s**", fmt.Sprintf("%s:%d...", *host, *port))
-	log.Printf("** You can use %-43s**", fmt.Sprintf("http://%s as license server", addr))
+	log.Printf("** You can use %-43s**", fmt.Sprintf("http://%s:%d as license server", *host, *port))
 	log.Println("************************************************************")
 
 	routerBinding()
@@ -75,7 +78,7 @@ func ping(w http.ResponseWriter, r *http.Request) {
 }
 
 func obtainTicket(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.URL)
+	// log.Println(r.URL)
 	//buildDate := r.URL.Query().Get("buildDate")
 	//clientVersion := r.URL.Query().Get("clientVersion")
 	//hostName := r.URL.Query().Get("hostName")

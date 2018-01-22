@@ -1,4 +1,4 @@
-package common
+package ip
 
 import (
 	"fmt"
