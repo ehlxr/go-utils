@@ -31,7 +31,7 @@ amd64:
 
 .PHONY: clean
 clean:
-	@ rm -rf JetBrainsLicenseServer* idea
+	@ rm -rf JetBrainsLicenseServer* jbls
 
 # 压缩。需要安装 https://github.com/upx/upx
 .PHONY: upx
