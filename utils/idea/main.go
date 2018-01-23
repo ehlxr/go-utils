@@ -24,10 +24,10 @@ func main() {
 	host := flag.String("host", "0.0.0.0", "Bind TCP Address")
 	flag.Parse()
 
-	log.Println("************************************************************")
-	log.Printf("** %-55s**", "JetBrains License Server")
-	log.Printf("** %-55s**", "Please support genuine!!!")
-	log.Printf("** listen on %-45s**", fmt.Sprintf("%s:%d...", *host, *port))
+	log.Println("*************************************************************")
+	log.Printf("**  %-55s**", "JetBrains License Server")
+	log.Printf("**  %-55s**", "Please support genuine!!!")
+	log.Printf("**  Listen on %-45s**", fmt.Sprintf("%s:%d...", *host, *port))
 
 	addr := fmt.Sprintf("%s:%d", *host, *port)
 	if strings.Contains(addr, "0.0.0.0") {
@@ -35,8 +35,8 @@ func main() {
 		*host = strings.Replace(*host, "0.0.0.0", "127.0.0.1", 1)
 	}
 
-	log.Printf("** You can use %-43s**", fmt.Sprintf("http://%s:%d as license server", *host, *port))
-	log.Println("************************************************************")
+	log.Printf("**  You can use %-43s**", fmt.Sprintf("http://%s:%d as license server", *host, *port))
+	log.Println("*************************************************************")
 
 	routerBinding()
 	err := http.ListenAndServe(addr, http.DefaultServeMux)
