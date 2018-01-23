@@ -1,27 +1,39 @@
+# https://golang.org/doc/install/source#environment
 GOOS := $(shell go env | awk -F= '$$1=="GOOS" {print $$2}' | awk -F '"' '{print $$2}') # 此处 awk 需使用两个 $
 GOARCH := $(shell go env | awk -F= '$$1=="GOARCH" {print $$2}' | awk -F '"' '{print $$2}')
+OSS = darwin dragonfly freebsd linux netbsd openbsd plan9 solaris windows
+PKG =
+# ifeq ($(strip $(GOOS)), windows)
+# 	GOARCH := $(strip $(GOARCH)).exe
+# endif
 
 .PHONY: build
 build:
-	@go build -ldflags "-s -w" -o JetBrainsLicenseServer_$(strip $(GOOS))_$(strip $(GOARCH))
+	@ go build -ldflags "-s -w" -o JetBrainsLicenseServer_$(strip $(GOOS))_$(strip $(if \
+    $(findstring windows,$(GOOS)),\
+    $(strip $(GOARCH)).exe,\
+    $(strip $(GOARCH))\
+	))
 
 .PHONY: amd64
 amd64:
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w" -o JetBrainsLicenseServer_darwin_amd64
-	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o JetBrainsLicenseServer_linux_amd64
-	@CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" -o JetBrainsLicenseServer_windows_amd64.exe
+	@ $(foreach OS,\
+	$(OSS),\
+	$(shell CGO_ENABLED=0 GOOS=$(OS) GOARCH=amd64 go build -ldflags "-s -w" -o JetBrainsLicenseServer_$(OS)_amd64$(if $(findstring windows,$(OS)),.exe)))
+	@ echo done
 
 .PHONY: 386
 386:
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=386 go build -ldflags "-s -w" -o JetBrainsLicenseServer_darwin_386
-	@CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -ldflags "-s -w" -o JetBrainsLicenseServer_linux_386
-	@CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -ldflags "-s -w" -o JetBrainsLicenseServer_windows_386.exe
+	@ $(foreach OS,\
+	$(OSS),\
+	$(shell CGO_ENABLED=0 GOOS=$(OS) GOARCH=386 go build -ldflags "-s -w" -o JetBrainsLicenseServer_$(OS)_386$(if $(findstring windows,$(OS)),.exe)))
+	@ echo done
 
 .PHONY: clean
 clean:
-	@rm -rf JetBrainsLicenseServer* idea
+	@ rm -rf JetBrainsLicenseServer* idea
 
 # 压缩。需要安装 https://github.com/upx/upx
 .PHONY: upx
 upx:
-	@upx JetBrainsLicenseServer*
+	@ upx $(if $(PKG),$(PKG),JetBrainsLicenseServer*)
