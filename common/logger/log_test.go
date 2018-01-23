@@ -23,7 +23,7 @@ func init() {
 	Error = log.New(io.MultiWriter(os.Stderr, errFile), "Error:", log.Ldate|log.Ltime|log.Lshortfile)
 }
 func TestLog(t *testing.T) {
-	Info.Println("飞雪无情的博客:", "http://www.flysnow.org")
-	Warning.Printf("飞雪无情的微信公众号：%s\n", "flysnow_org")
+	Info.Println("ehlxr博客:", "https://ehlxr.me")
+	Warning.Printf("ehlxr主页：%s\n", "https://ehlxr.top")
 	Error.Println("欢迎关注留言")
 }
