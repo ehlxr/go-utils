@@ -5,4 +5,4 @@ common utils for golang
 
 - [jbls](utils/jbls): JetBrains license server, Just for test and study, Please support genuine.
 
-- [jwt](utils/jwt): This is a simple tool to sign, verify and show JSON Web Tokens from the command line.
+- [jwt](utils/jwt): This is a simple tool to sign, verify and show JSON Web Tokens ([JWT](http://jwt.io/)) from the command line, base [jwt-go](https://github.com/dgrijalva/jwt-go).
