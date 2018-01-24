@@ -62,7 +62,7 @@ func GetIntranetIp() {
 	}
 }
 
-func TabaoAPI(ip string) *IPInfo {
+func TaobaoAPI(ip string) *IPInfo {
 	url := "http://ip.taobao.com/service/getIpInfo.php?ip="
 	url += ip
 
