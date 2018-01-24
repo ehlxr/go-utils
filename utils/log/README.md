@@ -31,7 +31,7 @@ $ curl https://glide.sh/get | sh
 ```bash
 $ go get -u github.com/ehlxr/go-utils
 
-$ cd $GOPATH/src/github.com/ehlxr/go-utils/log
+$ cd $GOPATH/src/github.com/ehlxr/go-utils/utils/log
 
 $ glide install
 ```

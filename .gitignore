@@ -15,4 +15,5 @@
 vendor
 
 JetBrainsLicenseServer*
-jbls
+utils/jbls/jbls
+utils/jwt/jwt

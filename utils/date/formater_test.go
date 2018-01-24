@@ -3,7 +3,7 @@ package date
 import (
 	"testing"
 
-	"github.com/ehlxr/go-utils/log"
+	"github.com/ehlxr/go-utils/utils/log"
 )
 
 func TestDateFormater(t *testing.T) {
