@@ -1,8 +1,7 @@
 `jwt` command-line tool
 =======================
 
-This is a simple tool to sign, verify and show JSON Web Tokens from
-the command line.
+This is a simple tool to sign, verify and show JSON Web Tokens from the command line.
 
 ```shell
 # The following will create and sign a token
