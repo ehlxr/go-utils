@@ -166,7 +166,8 @@ func signToken() error {
 	if err != nil {
 		return fmt.Errorf("Couldn't read token: %v", err)
 	} else if *flagDebug {
-		fmt.Fprintf(os.Stderr, "Token: %v bytes", len(tokData))
+		fmt.Fprintf(os.Stderr, "Token len: %v bytes\n", len(tokData))
+		fmt.Fprintf(os.Stderr, "Token data: %v \n", string(tokData))
 	}
 
 	// parse the JSON of the claims
