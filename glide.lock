@@ -1,5 +1,5 @@
-hash: c0f781010f60ae6afa49239d110b06ba51e08cf5d3691d4fe99b6c8990c3f78f
-updated: 2018-01-24T16:19:54.509676+08:00
+hash: 834ddc9f3063d1e2c3476d57dab0adc2af56a14a2515327d9758a4d4dd677653
+updated: 2018-01-30T17:25:41.80486+08:00
 imports:
 - name: github.com/dgrijalva/jwt-go
   version: dbeaa9332f19a944acb5736b4456cfcc02140e29
@@ -13,12 +13,14 @@ imports:
   version: d682213848ed68c0a260ca37d6dd5ace8423f5ba
 - name: github.com/x-cray/logrus-prefixed-formatter
   version: bb2702d423886830dee131692131d35648c382e2
+- name: github.com/xwb1989/sqlparser
+  version: da747e0c62c4e145ebd7484cf69f92c0dd192305
 - name: golang.org/x/crypto
-  version: 3d37316aaa6bd9929127ac9a527abf408178ea7b
+  version: 1875d0a70c90e57f11972aefd42276df65e895b9
   subpackages:
   - ssh/terminal
 - name: golang.org/x/sys
-  version: af50095a40f9041b3b38960738837185c26e9419
+  version: 3dbebcf8efb6a5011a60c2b4591c1022a759af8a
   subpackages:
   - unix
   - windows
