@@ -17,4 +17,5 @@ vendor
 JetBrainsLicenseServer*
 utils/jbls/jbls
 utils/jwt/jwt
+utils/generator/generator
 .idea
