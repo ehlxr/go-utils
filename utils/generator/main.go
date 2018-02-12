@@ -132,8 +132,6 @@ func loadData(p string) ([]byte, error) {
 	var rdr io.Reader
 	if p == "-" {
 		rdr = os.Stdin
-	} else if p == "+" {
-		return []byte("{}"), nil
 	} else {
 		if f, err := os.Open(p); err == nil {
 			rdr = f
