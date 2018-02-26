@@ -64,7 +64,7 @@ func routerBinding() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Server is starting!"))
+	w.Write([]byte("JetBrains License Server is started!"))
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
