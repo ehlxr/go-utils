@@ -95,12 +95,7 @@ func loadData(p string) []string {
 }
 
 func isPath(path string) (bool, string) {
-	p, err := filepath.Abs("")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	absPath := filepath.Join(p, strings.Replace(path, p, "", 1))
+	absPath, err := filepath.Abs(path)
 	_, err = os.Stat(absPath)
 	if err == nil {
 		return true, absPath
