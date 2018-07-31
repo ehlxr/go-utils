@@ -1,6 +1,5 @@
 {
-  "foo": "bar",
-  "exp": "2108-02-03",
-  "info": "jjjkk",
-  "other": "靠捡垃圾困了就睡打发士大夫斯柯达房间爱劳动法"
+  "ceres.enncloud.cn/app.id": "loaclDemo",
+  "ceres.enncloud.cn/namespace": "g-laikang-sh-dev",
+  "sub": "ceres.enncloud.cn:app:loaclDemo"
 }
