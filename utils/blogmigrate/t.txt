@@ -1,4 +1,0 @@
-[?25l[2K[1m[32m✔[0m [1mInput your source file path[0m[1m:[0m █
-[J[2K [J[2K [J[2K [1A[2K[2K
-[?25h[1A[2K[2K[1m[32m✔[0m [1mInput your source file path[0m[1m:[0m █
-[J[2K [J[2Kprompt failed ^C

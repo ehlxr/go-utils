@@ -57,7 +57,21 @@ func main() {
 		if err != nil {
 			fmt.Printf("genDesc file: %s failed: %v\n", file, err)
 		}
-		fmt.Printf("file: %s desc: %s\n", file, desc)
+
+		bytes, err := genNew(file, string(desc))
+		if err != nil {
+			fmt.Printf("genNew file: %s failed: %v\n", file, err)
+		}
+
+		if len(bytes) > 0 {
+			err = writeFile(file, bytes)
+			if err != nil {
+				fmt.Printf("writeFile file: %s failed: %v\n", file, err)
+				continue
+			}
+
+			fmt.Printf("deal file: %s done!!!\n", file)
+		}
 	}
 }
 
@@ -133,7 +147,7 @@ func genDesc(path string) ([]byte, error) {
 			break
 		}
 
-		if identifier < 2 && strings.Index(line, "---") > -1 {
+		if identifier < 2 && line == "---" {
 			identifier++
 			continue
 		}
@@ -142,7 +156,46 @@ func genDesc(path string) ([]byte, error) {
 			output = append(output, line...)
 			output = append(output, []byte("\n")...)
 			output = append(output, []byte("\n")...)
+			output = append(output, []byte("\n")...)
 		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Printf("cannot scanner text file: %s, err: [%v]", path, err)
+		return nil, err
+	}
+
+	return output, nil
+}
+
+func genNew(path string, des string) ([]byte, error) {
+	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
+	if err != nil {
+		log.Printf("cannot open text file: %s, err: [%v]", path, err)
+		return nil, err
+	}
+	defer file.Close()
+
+	// 按行读取文件
+	scanner := bufio.NewScanner(file)
+	var identifier int
+	output := make([]byte, 0)
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		if identifier < 2 && line == "---" {
+			identifier++
+		}
+
+		if identifier == 2 && line == "---" {
+			identifier++
+
+			output = append(output, fmt.Sprintf("description: \"%s\"", des)...)
+			output = append(output, []byte("\n")...)
+		}
+
+		output = append(output, line...)
+		output = append(output, []byte("\n")...)
 	}
 
 	if err := scanner.Err(); err != nil {
