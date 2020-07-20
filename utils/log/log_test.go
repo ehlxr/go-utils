@@ -2,9 +2,8 @@ package log
 
 import (
 	"fmt"
-	"testing"
-
 	"github.com/sirupsen/logrus"
+	"testing"
 )
 
 func TestSetting(t *testing.T) {
