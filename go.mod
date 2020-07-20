@@ -3,11 +3,13 @@ module github.com/ehlxr/go-utils
 go 1.13
 
 require (
+	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d // indirect
 	github.com/dgrijalva/jwt-go v3.1.0+incompatible
 	github.com/jessevdk/go-flags v1.4.1-0.20181221193153-c0795c8afcf4
 	github.com/manifoldco/promptui v0.3.2
 	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
+	github.com/nicksnyder/go-i18n v1.10.1 // indirect
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
 	github.com/sirupsen/logrus v1.4.2
