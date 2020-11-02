@@ -14,8 +14,8 @@ import (
 
 func main() {
 	prompt := promptui.SelectWithAdd{
-		// Label:    "What's your source file path",
-		// Items:    []string{"/Users/ehlxr/ehlxr/blog/Hexo/source/resume/index.md"},
+		Label:    "What's your source file path",
+		Items:    []string{"/Users/ehlxr/WorkSpaces/blog/Hexo/source/_posts"},
 		AddLabel: "Input your source file path",
 	}
 
@@ -27,15 +27,15 @@ func main() {
 
 	files := getFiles(source)
 	for _, file := range files {
-		// has, err := hasSlug(file)
-		// if err != nil {
-		// 	fmt.Printf("hasSlug file: %s failed: %v\n", file, err)
-		// 	continue
-		// }
-		// if has {
-		// 	println("file have content slug already")
-		// 	continue
-		// }
+		has, err := hasSlug(file)
+		if err != nil {
+			//fmt.Printf("hasSlug file: %s failed: %v\n", file, err)
+			continue
+		}
+		if has {
+			//println("file have content slug already")
+			continue
+		}
 		//
 		// bytes, err := handleText(file)
 		// if err != nil {
@@ -53,10 +53,20 @@ func main() {
 		// 	fmt.Printf("deal file: %s done!!!\n", file)
 		// }
 
-		desc, err := genDesc(file)
+		//desc, err := genDesc(file)
+		//if err != nil {
+		//	fmt.Printf("genDesc file: %s failed: %v\n", file, err)
+		//}
+
+		desc, err := genIndexImg(file)
 		if err != nil {
 			fmt.Printf("genDesc file: %s failed: %v\n", file, err)
+			continue
 		}
+		if len(desc) <= 0 {
+			continue
+		}
+		println(file, "=", string(desc))
 
 		bytes, err := genNew(file, string(desc))
 		if err != nil {
@@ -87,7 +97,7 @@ func hasSlug(file string) (bool, error) {
 		return false, err
 	}
 
-	if strings.Index(string(fd), "slug:") > -1 {
+	if strings.Index(string(fd), "index_img:") > -1 {
 		return true, nil
 	}
 
@@ -168,6 +178,39 @@ func genDesc(path string) ([]byte, error) {
 	return output, nil
 }
 
+func genIndexImg(path string) ([]byte, error) {
+	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
+	if err != nil {
+		log.Printf("cannot open text file: %s, err: [%v]", path, err)
+		return nil, err
+	}
+	defer file.Close()
+
+	// 按行读取文件
+	scanner := bufio.NewScanner(file)
+	output := make([]byte, 0)
+	for scanner.Scan() {
+		line := scanner.Text()
+		// line := scanner.Bytes()
+
+		if strings.Index(line, "https://cdn.jsdelivr.net/gh/0vo/oss/images") > -1 {
+			newByte := strings.Split(line, "https")[1]
+			newByte = strings.Split(newByte, " ")[0]
+			newByte = strings.Split(newByte, ")")[0]
+			output = append(output, "https"...)
+			output = append(output, newByte...)
+			break
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Printf("cannot scanner text file: %s, err: [%v]", path, err)
+		return nil, err
+	}
+
+	return output, nil
+}
+
 func genNew(path string, des string) ([]byte, error) {
 	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if err != nil {
@@ -190,7 +233,7 @@ func genNew(path string, des string) ([]byte, error) {
 		if identifier == 2 && line == "---" {
 			identifier++
 
-			output = append(output, fmt.Sprintf("description: \"%s\"", des)...)
+			output = append(output, fmt.Sprintf("index_img: \"%s\"", des)...)
 			output = append(output, []byte("\n")...)
 		}
 

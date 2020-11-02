@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -61,6 +62,14 @@ func main() {
 		active:      false,
 	}
 	fmt.Println(user)
+
+	fmt.Println("Hello World!")
+
+	a := "https://cdn.jsdelivr.net/gh/0vo/oss/images/kafka-logo.png 400 %}\n"
+	a1 := strings.Split(a, " ")[0]
+
+	fmt.Println(a1)                                                             //输出为：www.waylau.com/golang-strings-split-get-url/
+	fmt.Println(strings.Index(a, "https://cdn.jsdelivr.net/gh/0vo/oss/images")) //输出为：www.waylau.com
 }
 
 type User struct {
