@@ -147,7 +147,7 @@ func genDesc(path string) ([]byte, error) {
 
 	// 按行读取文件
 	scanner := bufio.NewScanner(file)
-	var identifier int
+	var flag, ln int
 	output := make([]byte, 0)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -157,16 +157,24 @@ func genDesc(path string) ([]byte, error) {
 			break
 		}
 
-		if identifier < 2 && line == "---" {
-			identifier++
+		if flag < 2 && line == "---" {
+			flag++
 			continue
 		}
 
-		if identifier == 2 && line != "" {
+		f := flag == 2 && line != ""
+
+		if f && ln > 0 {
+			output = append(output, []byte("\n")...)
+			// hello-friend 需要两个换行才能换行
+			output = append(output, []byte("\n")...)
+			output = append(output, []byte("\n")...)
+		}
+
+		if f {
+			ln++
+			line = strings.ReplaceAll(line, "'", "")
 			output = append(output, line...)
-			output = append(output, []byte("\n")...)
-			output = append(output, []byte("\n")...)
-			output = append(output, []byte("\n")...)
 		}
 	}
 
