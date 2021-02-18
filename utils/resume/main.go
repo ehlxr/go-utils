@@ -24,7 +24,7 @@ func main() {
 
 	prompt := promptui.SelectWithAdd{
 		Label:    "What's your source file path",
-		Items:    []string{"/Users/ehlxr/ehlxr/blog/Hexo/source/resume/index.md"},
+		Items:    []string{"resume.md"},
 		AddLabel: "Other",
 	}
 
@@ -37,7 +37,7 @@ func main() {
 
 	prompt = promptui.SelectWithAdd{
 		Label:    "What's your destination file path",
-		Items:    []string{"/Users/ehlxr/ehlxr/blog/resume/data.json"},
+		Items:    []string{"data.json"},
 		AddLabel: "Other",
 	}
 
